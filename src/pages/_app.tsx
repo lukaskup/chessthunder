@@ -11,7 +11,6 @@ const MyApp: AppType = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
-  console.log({ _app: session });
   return (
     <SessionProvider session={session}>
       <Navbar />
