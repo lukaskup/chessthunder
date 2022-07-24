@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import AccountIcon from "./../../../assets/icons/AccountIcon.svg";
+import AccountIcon from "./../../assets/icons/AccountIcon.svg";
 
 export const Navbar: NextPage = () => {
   let { data: session } = useSession();
