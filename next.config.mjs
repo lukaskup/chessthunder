@@ -9,11 +9,6 @@ import { env } from "./src/server/env.mjs";
  * @constraint {{import('next').NextConfig}}
  */
 function defineNextConfig(config) {
-  if (!config.isServer) {
-    config.node = {
-      fs: "empty",
-    };
-  }
   return config;
 }
 
