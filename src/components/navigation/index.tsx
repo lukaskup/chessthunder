@@ -6,7 +6,7 @@ import AccountIcon from "./../../assets/icons/AccountIcon.svg";
 export const Navigation: NextPage = () => {
   let { data: session } = useSession();
   return (
-    <div className="border-b dark:border-slate-300/10">
+    <div className="border-b border-slate-300/10">
       <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
