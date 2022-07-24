@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
-import { LogoStyled, NavbarStyled } from "./navbar.styled";
 
 export const Navbar: NextPage = () => {
   return (
-    <NavbarStyled>
-      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+    <div>
+      <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 border-b border-slate-900/10 dark:border-slate-300/10">
         <div className="relative flex items-center justify-between h-16">
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button
@@ -48,9 +47,9 @@ export const Navbar: NextPage = () => {
           </div>
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
-              <LogoStyled>chessthunder</LogoStyled>
+              <div className="text-2xl font-semibold">chessthunder</div>
             </div>
-            <div className="hidden sm:block sm:ml-6">
+            <div className="hidden sm:flex sm:ml-6 items-center">
               <div className="flex space-x-4">
                 <a
                   href="#"
@@ -118,6 +117,6 @@ export const Navbar: NextPage = () => {
           </a>
         </div>
       </div>
-    </NavbarStyled>
+    </div>
   );
 };
