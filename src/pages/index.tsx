@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
+import { GamesList } from "../components/GamesList";
 import { QuickPlay } from "../components/QuickPlay";
 
 const Home: NextPage = () => {
@@ -37,7 +38,7 @@ const Home: NextPage = () => {
             Games list
           </div>
         </div>
-        {activeButton === "quickPlay" ? <QuickPlay /> : "Games list"}
+        {activeButton === "quickPlay" ? <QuickPlay /> : <GamesList />}
       </div>
     </>
   );
