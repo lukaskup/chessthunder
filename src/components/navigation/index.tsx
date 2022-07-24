@@ -55,7 +55,7 @@ export const Navigation: NextPage = () => {
                 chessthunder
               </div>
             </div>
-            <div className="hidden sm:flex sm:ml-6 items-center">
+            {/* <div className="hidden sm:flex sm:ml-6 items-center">
               <div className="flex space-x-4">
                 <a
                   href="#"
@@ -65,7 +65,7 @@ export const Navigation: NextPage = () => {
                   Dashboard
                 </a>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="ml-3 relative">
@@ -94,7 +94,7 @@ export const Navigation: NextPage = () => {
         </div>
       </div>
 
-      <div className="sm:hidden" id="mobile-menu">
+      {/* <div className="sm:hidden" id="mobile-menu">
         <div className="px-2 pt-2 pb-3 space-y-1">
           <a
             href="#"
@@ -104,7 +104,7 @@ export const Navigation: NextPage = () => {
             Dashboard
           </a>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

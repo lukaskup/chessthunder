@@ -22,7 +22,7 @@ export const apiRouter = createRouter()
         { player: "franke123", rating: 1235, mode: "2+1" },
         { player: "player1", rating: 1335, mode: "3+1" },
         { player: "Otakio", rating: 1435, mode: "10+1" },
-        { player: "XDDDDD", rating: 1535, mode: "5+3" },
+        { player: "verylongnameofsomeuser", rating: 1535, mode: "5+3" },
         { player: "JanekWitkoski", rating: 1635, mode: "10+0" },
         { player: "sukkmakookk", rating: 1735, mode: "5+0" },
         { player: "duwapkayn", rating: 1835, mode: "1+0" },
