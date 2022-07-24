@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import AccountIcon from "./../../assets/icons/AccountIcon.svg";
 
-export const Navbar: NextPage = () => {
+export const Navigation: NextPage = () => {
   let { data: session } = useSession();
   return (
     <div className="border-b dark:border-slate-300/10">
