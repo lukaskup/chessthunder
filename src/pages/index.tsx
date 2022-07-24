@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { QuickPlay } from "../components/QuickPlay";
 
 const Home: NextPage = () => {
   return (
@@ -8,7 +9,9 @@ const Home: NextPage = () => {
         <title>Chessthunder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      Hello world!
+      <div>
+        <QuickPlay />
+      </div>
     </>
   );
 };
