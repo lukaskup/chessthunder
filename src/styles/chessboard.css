@@ -1,0 +1,21 @@
+#chessboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: fit-content(0);
+}
+
+#chessboard .leftPanel {
+  text-align: center;
+}
+
+#chessboard .rightPanel {
+  display: grid;
+  text-align: center;
+  grid-template-rows: repeat(2, 1fr);
+}
+
+#chessboard .rightPanel .movesList {
+}
+
+#chessboard .rightPanel .buttons {
+}
