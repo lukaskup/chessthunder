@@ -16,6 +16,7 @@ export const NavigationButton = ({
   return (
     <div
       className={`p-4 flex justify-center ${disabled ? "" : "cursor-pointer"}`}
+      onClick={onClick}
     >
       <Image
         className={`icon ${
@@ -26,7 +27,6 @@ export const NavigationButton = ({
         width={32}
         height={32}
         alt={iconAlt}
-        onClick={onClick}
       />
     </div>
   );

@@ -98,12 +98,14 @@ const Game: NextPage = () => {
         <NavigationButton
           iconSrc={ArrowBackIcon.src}
           iconAlt="previous move icon"
-          onClick={() => previousMovePreview}
+          onClick={previousMovePreview}
+          disabled
         />
         <NavigationButton
           iconSrc={ArrowForwardIcon.src}
           iconAlt="next move icon"
-          onClick={() => nextMovePreview}
+          onClick={nextMovePreview}
+          disabled
         />
       </div>
     </>
