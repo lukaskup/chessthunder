@@ -1,8 +1,7 @@
-import type { NextPage } from "next";
 import { trpc } from "../../utils/trpc";
 
 //TODO create GameMode interface and example data
-export const GamesList: NextPage = () => {
+export const GamesList = () => {
   const { data: games } = trpc.useQuery(["api.gamesList"]);
   return (
     <div className="border border-slate-300/20 rounded px-6 sm:px-12 py-6">

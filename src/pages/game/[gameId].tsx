@@ -1,17 +1,23 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
+import MenuIcon from "../../assets/icons/MenuIcon.svg";
+import ChatIcon from "../../assets/icons/ChatIcon.svg";
+import ArrowBackIcon from "../../assets/icons/ArrowBackIcon.svg";
+import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon.svg";
+import SwapIcon from "../../assets/icons/SwapIcon.svg";
+import { NavigationButton } from "../../components/Game/NavigationButton";
 
 const Game: NextPage = () => {
-  //   const router = useRouter();
-  //   const { gameId } = router.query;
   const [game, setGame] = useState(new Chess());
   const [chessboardWidth, setChessboardWidth] = useState<number>(540);
-  const chessboardRef = useRef<HTMLDivElement>(null);
+  const [boardOrientation, setBoardOrientation] = useState<"white" | "black">(
+    "white"
+  );
 
+  const chessboardRef = useRef<HTMLDivElement>(null);
   const handleWindowResize = () => {
     if (chessboardRef.current) {
       setChessboardWidth(chessboardRef.current.offsetWidth);
@@ -25,6 +31,10 @@ const Game: NextPage = () => {
   useLayoutEffect(() => {
     handleWindowResize();
   }, []);
+
+  const previousMovePreview = () => {};
+
+  const nextMovePreview = () => {};
 
   function safeGameMutate(modify: any) {
     setGame((g) => {
@@ -71,13 +81,30 @@ const Game: NextPage = () => {
           boardWidth={chessboardWidth}
           showBoardNotation
           id={1}
+          boardOrientation={boardOrientation}
         />
       </div>
       <div className="grid grid-cols-5">
-        <div className="col">back</div>
-        <div className="col">back</div>
-        <div className="col">back</div>
-        <div className="col">back</div>
+        <NavigationButton iconSrc={MenuIcon.src} iconAlt="menu icon" disabled />
+        <NavigationButton iconSrc={ChatIcon.src} iconAlt="chat icon" disabled />
+        <NavigationButton
+          iconSrc={SwapIcon.src}
+          iconAlt="swap icon"
+          onClick={() => {
+            if (boardOrientation === "white") setBoardOrientation("black");
+            if (boardOrientation === "black") setBoardOrientation("white");
+          }}
+        />
+        <NavigationButton
+          iconSrc={ArrowBackIcon.src}
+          iconAlt="previous move icon"
+          onClick={() => previousMovePreview}
+        />
+        <NavigationButton
+          iconSrc={ArrowForwardIcon.src}
+          iconAlt="next move icon"
+          onClick={() => nextMovePreview}
+        />
       </div>
     </>
   );

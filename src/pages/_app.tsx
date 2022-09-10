@@ -4,8 +4,8 @@ import type { AppRouter } from "../server/router";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
-import "../styles/globals.css";
-import "../styles/chessboard.css";
+import "../styles/globals.scss";
+import "../styles/chessboard.scss";
 import { Navigation } from "../components/Navigation";
 
 const MyApp: AppType = ({

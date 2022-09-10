@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { trpc } from "../../utils/trpc";
 
 //TODO create GameMode interface and example data
-export const QuickPlay: NextPage = () => {
+export const QuickPlay = () => {
   const { data: modes } = trpc.useQuery(["api.gameModes"]);
   return (
     <div className="grid grid-cols-3 gap-4">
