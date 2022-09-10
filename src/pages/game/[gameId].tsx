@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 
@@ -9,6 +9,22 @@ const Game: NextPage = () => {
   //   const router = useRouter();
   //   const { gameId } = router.query;
   const [game, setGame] = useState(new Chess());
+  const [chessboardWidth, setChessboardWidth] = useState<number>(540);
+  const chessboardRef = useRef<HTMLDivElement>(null);
+
+  const handleWindowResize = () => {
+    if (chessboardRef.current) {
+      setChessboardWidth(chessboardRef.current.offsetWidth);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowResize);
+  }, []);
+
+  useLayoutEffect(() => {
+    handleWindowResize();
+  }, []);
 
   function safeGameMutate(modify: any) {
     setGame((g) => {
@@ -48,13 +64,20 @@ const Game: NextPage = () => {
         <title>Chessthunder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div id="chessboard">
-        <div className="leftPanel">chat</div>
-        <Chessboard position={game.fen()} onPieceDrop={onDrop} />
-        <div className="rightPanel">
-          <div className="movesList">moves</div>
-          <div className="">buttons</div>
-        </div>
+      <div id="chessboard" ref={chessboardRef}>
+        <Chessboard
+          position={game.fen()}
+          onPieceDrop={onDrop}
+          boardWidth={chessboardWidth}
+          showBoardNotation
+          id={1}
+        />
+      </div>
+      <div className="grid grid-cols-5">
+        <div className="col">back</div>
+        <div className="col">back</div>
+        <div className="col">back</div>
+        <div className="col">back</div>
       </div>
     </>
   );
