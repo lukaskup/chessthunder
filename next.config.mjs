@@ -1,4 +1,5 @@
 import { env } from "./src/server/env.mjs";
+import path from "path";
 
 /**
  * Don't be scared of the generics here.
@@ -16,5 +17,8 @@ export default defineNextConfig({
   reactStrictMode: true,
   images: {
     domains: ["i.pravatar.cc"],
+  },
+  sassOptions: {
+    includePaths: ["src/styles"],
   },
 });

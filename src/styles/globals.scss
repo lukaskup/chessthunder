@@ -5,4 +5,10 @@
 body {
   background-color: rgb(15 23 42);
   color: #fff;
+
+  .icon {
+    &.disabled {
+      filter: brightness(0.5);
+    }
+  }
 }

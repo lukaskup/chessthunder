@@ -1,6 +1,0 @@
-#chessboard {
-}
-
-#chessboard > div > div[data-boardid="1"] {
-  /* width: 100% !important; */
-}
