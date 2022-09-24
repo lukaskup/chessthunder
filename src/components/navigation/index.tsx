@@ -56,18 +56,25 @@ export const Navigation = () => {
           <div
             className={`${
               isUserMenuOpen ? "" : "hidden"
-            } parent drop-shadow-2xl bg-main-dark p-4 absolute right-0 top-16 z-20 border rounded-md border-slate-300/30 grid grid-rows`}
+            } parent drop-shadow-2xl bg-main-dark p-4 pt-2 absolute right-0 top-16 z-20 border rounded-md border-slate-300/30 grid grid-rows`}
           >
             <div className="-rotate-[45deg] -translate-y-[9px] absolute right-2 drop-shadow-2xl bg-main-dark z-20 border-t border-r h-4 w-4 border-slate-300/30" />
-            <div
+            <div className="border-b border-slate-300/30 mb-3 p-2">
+              {session?.user?.name}
+            </div>
+            <Button
+              content={"Profile"}
+              href="/profile"
+              customClassName="border-0"
+            />
+            <Button
               onClick={async () => {
                 await signOut();
                 setisUserMenuOpen(false);
               }}
-              className="p-2 cursor-pointer"
-            >
-              Sign out
-            </div>
+              content="Sign out"
+              customClassName="border-0"
+            />
           </div>
         </div>
       </div>

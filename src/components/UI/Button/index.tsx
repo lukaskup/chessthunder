@@ -14,7 +14,7 @@ export const Button = ({
   customClassName,
   href,
 }: ButtonProps) => {
-  const className = `flex justify-center items-center border border-slate-300/10 hover:bg-slate-300/10 ease-in-out duration-300 text-gray-900 text-sm rounded-lg w-full p-3 ${customClassName}`;
+  const className = `cursor-pointer flex justify-center items-center border border-slate-300/10 hover:bg-slate-300/10 ease-in-out duration-300 text-gray-900 text-sm rounded-lg w-full p-3 ${customClassName}`;
 
   return href ? (
     <Link href={href}>

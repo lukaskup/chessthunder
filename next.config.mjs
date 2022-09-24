@@ -16,7 +16,12 @@ function defineNextConfig(config) {
 export default defineNextConfig({
   reactStrictMode: true,
   images: {
-    domains: ["i.pravatar.cc", "avatars.githubusercontent.com"],
+    domains: [
+      "i.pravatar.cc",
+      "avatars.githubusercontent.com",
+      "lh3.googleusercontent.com",
+      "cdn.discordapp.com",
+    ],
   },
   sassOptions: {
     includePaths: ["src/styles"],

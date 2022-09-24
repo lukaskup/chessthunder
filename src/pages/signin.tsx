@@ -5,7 +5,7 @@ import {
   useSession,
 } from "next-auth/react";
 import { InferGetServerSidePropsType } from "next";
-import { FaGithub, FaGoogle, FaSkull, FaInstagram } from "react-icons/fa";
+import { FaGithub, FaGoogle, FaSkull, FaDiscord } from "react-icons/fa";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { CtxOrReq } from "next-auth/client/_utils";
@@ -77,9 +77,9 @@ const SignInPage = ({
               customClassName="mt-6"
             />
             <Button
-              content={<FaInstagram size={20} />}
+              content={<FaDiscord size={20} />}
               onClick={() => {
-                signIn("instagram");
+                signIn("discord");
               }}
               customClassName="mt-6"
             />
