@@ -9,15 +9,12 @@ import { FaGithub, FaGoogle, FaSkull, FaDiscord } from "react-icons/fa";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { CtxOrReq } from "next-auth/client/_utils";
-import { Input } from "../components/UI/Input";
-import { Checkbox } from "../components/UI/Checkbox";
+import { Input } from "../../components/UI/Input";
+import { Checkbox } from "../../components/UI/Checkbox";
 import Link from "next/link";
-import { Button } from "../components/UI/Button";
+import { Button } from "../../components/UI/Button";
 
-const SignInPage = ({
-  providers,
-  csrfToken,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const SignInPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -26,6 +23,7 @@ const SignInPage = ({
       router.push("/");
     }
   }, [session, router]);
+
   return (
     <div className="flex justify-center">
       <div className="w-2/3 p-16">

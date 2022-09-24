@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,16 @@ import { Button } from "../UI/Button";
 export const Navigation = () => {
   let { data: session } = useSession();
   const [isUserMenuOpen, setisUserMenuOpen] = useState(false);
+  useEffect(() => {
+    document.addEventListener("click", (event: any) => {
+      if (event.target.id !== "profilePicture") {
+        setisUserMenuOpen(false);
+      }
+    });
+
+    return document.removeEventListener("click", () => {});
+  }, []);
+
   return (
     <div className="border-b border-slate-300/10">
       <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -45,9 +55,10 @@ export const Navigation = () => {
                       width={32}
                       height={32}
                       alt="account profile picture"
+                      id="profilePicture"
                     />
                   ) : (
-                    <Button content="Sign in" href="/signin" />
+                    <Button content="Sign in" href="/auth/signin" />
                   )}
                 </button>
               </div>
@@ -64,8 +75,11 @@ export const Navigation = () => {
             </div>
             <Button
               content={"Profile"}
-              href="/profile"
+              href="/auth/profile"
               customClassName="border-0"
+              onClick={() => {
+                setisUserMenuOpen(false);
+              }}
             />
             <Button
               onClick={async () => {
