@@ -5,6 +5,7 @@ module.exports = {
   theme: {
     colors: {
       "slate-300": "rgb(203 213 225)",
+      "slate-200": "rgb(203 213 225)",
     },
     extend: {},
   },

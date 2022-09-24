@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import AccountIcon from "./../../assets/icons/AccountIcon.svg";
 
 export const Navigation = () => {
@@ -78,15 +79,17 @@ export const Navigation = () => {
                   aria-haspopup="true"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <Image
-                    className="h-8 w-8 rounded-full"
-                    src={
-                      session ? "https://i.pravatar.cc/300" : AccountIcon.src
-                    }
-                    width={32}
-                    height={32}
-                    alt="account profile picture"
-                  />
+                  <Link href={session ? "#" : "/login"}>
+                    <Image
+                      className="h-8 w-8 rounded-full"
+                      src={
+                        session ? "https://i.pravatar.cc/300" : AccountIcon.src
+                      }
+                      width={32}
+                      height={32}
+                      alt="account profile picture"
+                    />
+                  </Link>
                 </button>
               </div>
             </div>

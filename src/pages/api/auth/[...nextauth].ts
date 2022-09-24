@@ -1,8 +1,14 @@
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 import NextAuth, { type NextAuthOptions } from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
-import GoogleProvider from "next-auth/providers/google";
-import { env } from "../../../server/env.mjs";
 import GithubProvider from "next-auth/providers/github";
+import EmailProvider from "next-auth/providers/email";
+import GoogleProvider from "next-auth/providers/google";
+import InstagramProvider from "next-auth/providers/instagram";
+
+import { env } from "../../../server/env.mjs";
+
+const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {
   callbacks: {
@@ -13,15 +19,23 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-
+  adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
+    EmailProvider({
+      server: env.EMAIL_SERVER,
+      from: env.EMAIL_FROM,
+    }),
+    GithubProvider({
+      clientId: env.GITHUB_ID,
+      clientSecret: env.GITHUB_SECRET,
     }),
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
+    }),
+    InstagramProvider({
+      clientId: env.INSTAGRAM_CLIENT_ID,
+      clientSecret: env.INSTAGRAM_CLIENT_SECRET,
     }),
   ],
 };
