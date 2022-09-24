@@ -14,7 +14,7 @@ import { Checkbox } from "../components/UI/Checkbox";
 import Link from "next/link";
 import { Button } from "../components/UI/Button";
 
-const LoginPage = ({
+const SignInPage = ({
   providers,
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
@@ -64,17 +64,23 @@ const LoginPage = ({
           <div className="grid grid-cols-3 gap-2">
             <Button
               content={<FaGithub size={20} />}
-              onClick={() => {}}
+              onClick={() => {
+                signIn("github");
+              }}
               customClassName="mt-6"
             />
             <Button
               content={<FaGoogle size={20} />}
-              onClick={() => {}}
+              onClick={() => {
+                signIn("google");
+              }}
               customClassName="mt-6"
             />
             <Button
               content={<FaInstagram size={20} />}
-              onClick={() => {}}
+              onClick={() => {
+                signIn("instagram");
+              }}
               customClassName="mt-6"
             />
           </div>
@@ -92,4 +98,4 @@ export const getServerSideProps = async (context: CtxOrReq | undefined) => {
   };
 };
 
-export default LoginPage;
+export default SignInPage;
