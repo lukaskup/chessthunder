@@ -14,7 +14,6 @@ const ProfilePage = () => {
     }
   }, [session, router]);
 
-  console.log(session);
   return session && session.user ? (
     <div>
       <h1 className="text-4xl mb-4 font-bold">Profile information</h1>

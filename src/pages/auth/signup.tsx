@@ -4,49 +4,56 @@ import {
   getCsrfToken,
   useSession,
 } from "next-auth/react";
-import { FaGithub, FaGoogle, FaSkull, FaDiscord } from "react-icons/fa";
+import { FaGithub, FaGoogle, FaDiscord } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { CtxOrReq } from "next-auth/client/_utils";
 import { Input } from "../../components/UI/Input";
-import { Checkbox } from "../../components/UI/Checkbox";
 import Link from "next/link";
 import { Button } from "../../components/UI/Button";
+import { trpc } from "../../utils/trpc";
 
-interface UserLoginDto {
+interface UserSignupDto {
   email: string;
+  name: string;
   password: string;
+  passwordConfirm: string;
 }
 
-const SignInPage = () => {
+const SignUpPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
-
-  const [userLoginDto, setUserLoginDto] = useState<UserLoginDto>({
+  const [userDto, setUserDto] = useState<UserSignupDto>({
     email: "",
+    name: "",
     password: "",
+    passwordConfirm: "",
   });
-
+  const signup = trpc.useMutation("auth.signup");
   useEffect(() => {
     if (session) {
       router.push("/");
     }
   }, [session, router]);
 
+  const handleSingup = () => {
+    signup.mutate(userDto);
+  };
+
   return (
     <div className="flex justify-center">
       <div className="w-2/3 p-16">
         <h2 className="text-center text-4xl mt-5 font-semibold">
-          Sign in to your account
+          Create an account
         </h2>
         <div className="text-center mt-2 text-sm font-medium text-slate-300/60">
           or{" "}
-          <Link href="/auth/signup">
+          <Link href="/auth/signin">
             <span className="text-slate-300/90 underline cursor-pointer">
-              sign up
+              sign in
             </span>
           </Link>{" "}
-          if you don&apos;t have an account
+          if you already have an account
         </div>
         <div className="border border-slate-300/10 p-12 mt-10">
           <Input
@@ -54,10 +61,23 @@ const SignInPage = () => {
             label="email"
             placeholder="8==>---"
             type="text"
-            value={userLoginDto.email}
+            value={userDto.email}
             onChange={(e) =>
-              setUserLoginDto((prev) => {
+              setUserDto((prev) => {
                 return { ...prev, email: e.target.value };
+              })
+            }
+          />
+          <Input
+            id="name"
+            label="name"
+            placeholder="8==>---"
+            type="text"
+            containerClass="mt-6"
+            value={userDto.name}
+            onChange={(e) =>
+              setUserDto((prev) => {
+                return { ...prev, name: e.target.value };
               })
             }
           />
@@ -67,35 +87,25 @@ const SignInPage = () => {
             placeholder="supa secret"
             type="text"
             containerClass="mt-6"
-            value={userLoginDto.password}
+            value={userDto.password}
             onChange={(e) =>
-              setUserLoginDto((prev) => {
+              setUserDto((prev) => {
                 return { ...prev, password: e.target.value };
               })
             }
           />
-          <div className="grid grid-cols-2 mt-8">
-            <div>
-              <Checkbox id="rememberme" label="Remeber me" />
-            </div>
-            <div>
-              <Link href="#">
-                <div className="flex flex-row-reverse gap-2 cursor-pointer text-sm font-medium">
-                  Forgor your password?{" "}
-                  <FaSkull className="-translate-y-[-2px]" />
-                </div>
-              </Link>
-            </div>
-          </div>
+          <Input
+            id="confirm-password"
+            label="confirm password"
+            placeholder="supa secret"
+            type="text"
+            containerClass="mt-6"
+            value=""
+            onChange={() => {}}
+          />
           <Button
-            content="Sign in"
-            onClick={async () => {
-              const res = await signIn("credentials", {
-                email: userLoginDto.email,
-                password: userLoginDto.password,
-              });
-              console.log(res);
-            }}
+            content="Sign up"
+            onClick={handleSingup}
             customClassName="mt-6"
           />
           <div className="grid grid-cols-3 gap-2 mt-6 items-center">
@@ -140,4 +150,4 @@ export const getServerSideProps = async (context: CtxOrReq | undefined) => {
   };
 };
 
-export default SignInPage;
+export default SignUpPage;
