@@ -56,6 +56,7 @@ export const Navigation = () => {
                       height={32}
                       alt="account profile picture"
                       id="profilePicture"
+                      data-testid="profilePicture"
                     />
                   ) : (
                     <Button content="Sign in" href="/auth/signin" />
