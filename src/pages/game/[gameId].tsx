@@ -9,6 +9,8 @@ import ArrowBackIcon from "../../assets/icons/ArrowBackIcon.svg";
 import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon.svg";
 import SwapIcon from "../../assets/icons/SwapIcon.svg";
 import { NavigationButton } from "../../components/Game/NavigationButton";
+import { io } from "socket.io-client";
+import { Socket } from "socket.io";
 
 const Game: NextPage = () => {
   const [game, setGame] = useState(new Chess());
@@ -17,6 +19,8 @@ const Game: NextPage = () => {
     "white"
   );
 
+  let socket;
+
   const chessboardRef = useRef<HTMLDivElement>(null);
   const handleWindowResize = () => {
     if (chessboardRef.current) {
@@ -24,8 +28,20 @@ const Game: NextPage = () => {
     }
   };
 
+  const initSocket = async () => {
+    await fetch("/api/socket");
+    socket = io();
+
+    socket.on("connect", () => {
+      console.log("user connected");
+    });
+  };
+
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
+    initSocket().then(() => {
+      console.log("socket initialized");
+    });
   }, []);
 
   useLayoutEffect(() => {
