@@ -31,7 +31,6 @@ export const gameRouter = createRouter()
     resolve: async ({ ctx, input }) => {
       const move: Move = {
         id: uuidv4(),
-        //TODO
         gameId: input.gameId,
         message: input.move,
         sentAd: new Date(),
