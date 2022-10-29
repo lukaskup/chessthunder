@@ -9,17 +9,30 @@ import ArrowBackIcon from "../../assets/icons/ArrowBackIcon.svg";
 import ArrowForwardIcon from "../../assets/icons/ArrowForwardIcon.svg";
 import SwapIcon from "../../assets/icons/SwapIcon.svg";
 import { NavigationButton } from "../../components/Game/NavigationButton";
-import { io } from "socket.io-client";
-import { Socket } from "socket.io";
+import { useRouter } from "next/router";
+import { trpc } from "../../utils/trpc";
+import { Move } from "../../constants/schemas";
+import { v4 as uuid4 } from "uuid";
 
 const Game: NextPage = () => {
   const [game, setGame] = useState(new Chess());
+  const [moves, setMoves] = useState<Move[]>([]);
   const [chessboardWidth, setChessboardWidth] = useState<number>(540);
   const [boardOrientation, setBoardOrientation] = useState<"white" | "black">(
     "white"
   );
+  const { query } = useRouter();
+  const gameId = query.gameId as string;
+  const { mutateAsync: sendMoveMutation } = trpc.useMutation(["game.sendMove"]);
 
-  let socket;
+  trpc.useSubscription(["game.onSendMove", { gameId }], {
+    onNext: (move: Move) => {
+      setMoves((m) => {
+        return [...m, move];
+      });
+      game.move(move.message);
+    },
+  });
 
   const chessboardRef = useRef<HTMLDivElement>(null);
   const handleWindowResize = () => {
@@ -27,21 +40,8 @@ const Game: NextPage = () => {
       setChessboardWidth(chessboardRef.current.offsetWidth);
     }
   };
-
-  const initSocket = async () => {
-    await fetch("/api/socket");
-    socket = io();
-
-    socket.on("connect", () => {
-      console.log("user connected");
-    });
-  };
-
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
-    initSocket().then(() => {
-      console.log("socket initialized");
-    });
   }, []);
 
   useLayoutEffect(() => {
@@ -60,27 +60,23 @@ const Game: NextPage = () => {
     });
   }
 
-  function makeRandomMove() {
-    const possibleMoves = game.moves();
-    if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
-      return; // exit if the game is over
-    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
-    safeGameMutate((game: any) => {
-      game.move(possibleMoves[randomIndex]);
-    });
-  }
-
   function onDrop(sourceSquare: any, targetSquare: any) {
     let move = null;
     safeGameMutate((game: any) => {
       move = game.move({
         from: sourceSquare,
         to: targetSquare,
-        promotion: "q", // always promote to a queen for example simplicity
+        promotion: "q",
       });
     });
-    if (move === null) return false; // illegal move
-    setTimeout(makeRandomMove, 200);
+    if (move === null) {
+      return false;
+    } else {
+      //@ts-ignore
+      const newMoveSan = move.san;
+      sendMoveMutation({ move: newMoveSan, gameId });
+    }
+
     return true;
   }
 
@@ -124,6 +120,9 @@ const Game: NextPage = () => {
           disabled
         />
       </div>
+      {moves.map((move) => (
+        <div key={uuid4()}>{move.message}</div>
+      ))}
     </>
   );
 };

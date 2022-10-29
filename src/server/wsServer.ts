@@ -25,8 +25,6 @@ console.log("websocket server started");
 
 process.on("SIGTERM", () => {
   console.log("SIGTERM");
-
   handler.broadcastReconnectNotification();
-
   webSocketServer.close();
 });
