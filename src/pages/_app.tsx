@@ -9,16 +9,18 @@ import "../styles/chessboard.scss";
 import { Navigation } from "../components/Navigation";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
+import { useRouter } from "next/router";
 
 const MyApp: AppType = ({
   Component,
   //@ts-ignore
   pageProps: { session, ...pageProps },
 }) => {
+  const router = useRouter();
   return (
     <SessionProvider session={session}>
       <Navigation />
-      <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8 pt-4">
+      <div className={`max-w-lg mx-auto px-2 sm:px-6 lg:px-8 pt-4`}>
         <Component {...pageProps} />
       </div>
     </SessionProvider>

@@ -12,7 +12,9 @@ import { NavigationButton } from "../../components/Game/NavigationButton";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
 import { Move } from "../../constants/schemas";
-import { v4 as uuid4 } from "uuid";
+import { GameInfo } from "../../components/Game/GameInfo";
+import { Chat } from "../../components/Chat";
+import { MovesInfo } from "../../components/Game/MovesInfo";
 
 const Game: NextPage = () => {
   const [game, setGame] = useState(new Chess());
@@ -27,9 +29,7 @@ const Game: NextPage = () => {
 
   trpc.useSubscription(["game.onSendMove", { gameId }], {
     onNext: (move: Move) => {
-      setMoves((m) => {
-        return [...m, move];
-      });
+      setMoves((m) => [...m, move]);
       game.move(move.message);
     },
   });
@@ -47,10 +47,6 @@ const Game: NextPage = () => {
   useLayoutEffect(() => {
     handleWindowResize();
   }, []);
-
-  const previousMovePreview = () => {};
-
-  const nextMovePreview = () => {};
 
   function safeGameMutate(modify: any) {
     setGame((g) => {
@@ -86,43 +82,27 @@ const Game: NextPage = () => {
         <title>Chessthunder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div id="chessboard" ref={chessboardRef}>
-        <Chessboard
-          position={game.fen()}
-          onPieceDrop={onDrop}
-          boardWidth={chessboardWidth}
-          showBoardNotation
-          id={1}
-          boardOrientation={boardOrientation}
-        />
+      <div className="grid grid-cols-12 gap-4">
+        <div className="flex flex-col col-span-2">
+          <GameInfo />
+          <Chat />
+        </div>
+        <div className="col-span-8">
+          <div id="chessboard" ref={chessboardRef}>
+            <Chessboard
+              position={game.fen()}
+              onPieceDrop={onDrop}
+              boardWidth={chessboardWidth}
+              showBoardNotation
+              id={1}
+              boardOrientation={boardOrientation}
+            />
+          </div>
+        </div>
+        <div className="col-span-2">
+          <MovesInfo moves={moves} />
+        </div>
       </div>
-      <div className="grid grid-cols-5">
-        <NavigationButton iconSrc={MenuIcon.src} iconAlt="menu icon" disabled />
-        <NavigationButton iconSrc={ChatIcon.src} iconAlt="chat icon" disabled />
-        <NavigationButton
-          iconSrc={SwapIcon.src}
-          iconAlt="swap icon"
-          onClick={() => {
-            if (boardOrientation === "white") setBoardOrientation("black");
-            if (boardOrientation === "black") setBoardOrientation("white");
-          }}
-        />
-        <NavigationButton
-          iconSrc={ArrowBackIcon.src}
-          iconAlt="previous move icon"
-          onClick={previousMovePreview}
-          disabled
-        />
-        <NavigationButton
-          iconSrc={ArrowForwardIcon.src}
-          iconAlt="next move icon"
-          onClick={nextMovePreview}
-          disabled
-        />
-      </div>
-      {moves.map((move) => (
-        <div key={uuid4()}>{move.message}</div>
-      ))}
     </>
   );
 };
