@@ -8,7 +8,7 @@ export const Chat = () => {
   return (
     <div className="relative border rounded-md mt-2 h-full max-h-96 p-4">
       <div className="messages"></div>
-      <div className="absolute flex bottom-4 margin-auto left-4 grid grid-cols-12">
+      <div className="absolute flex bottom-4 margin-auto left-4 right-4 grid grid-cols-12">
         <input
           type="text"
           title="message"
@@ -20,7 +20,7 @@ export const Chat = () => {
           }}
         />
         <button
-          className="flex justify-center text-center col-span-4"
+          className="flex justify-end text-center col-span-4"
           aria-hidden="true"
         >
           <Image src={SendIcon} alt="send icon" height="24" width="24" />
