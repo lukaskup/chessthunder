@@ -5,6 +5,7 @@ import {
   sendMoveSchema,
   Move,
   moveSubSchema,
+  UserGame,
 } from "./../../constants/schemas";
 
 import { createRouter } from "./context";
@@ -16,12 +17,24 @@ export const gameRouter = createRouter()
     input: createGameSchema,
     resolve: async ({ ctx, input }) => {
       const game: Game = {
+        id: input.id,
+      };
+
+      const position = !!Math.round(Math.random()) ? "WHITE" : "BLACK";
+      const userGame: UserGame = {
         id: uuidv4(),
+        gameId: input.id,
+        position: position,
+        sessionId: uuidv4(),
+        userId: ctx.session?.user?.id,
       };
 
       ctx.eventEmitter.emit(Events.CREATE_GAME, game);
 
+      //@ts-ignore
       await prisma?.game.create({ data: game });
+      //@ts-ignore
+      await prisma?.userGame.create({ data: userGame });
 
       return true;
     },

@@ -1,3 +1,4 @@
+import { Session } from "./../../node_modules/.prisma/client/index.d";
 import z from "zod";
 
 export const createGameSchema = z.object({
@@ -9,6 +10,16 @@ const gameSchema = z.object({
 });
 
 export type Game = z.TypeOf<typeof gameSchema>;
+
+const userGameSchema = z.object({
+  id: z.string(),
+  gameId: z.string(),
+  userId: z.union([z.string(), z.undefined()]),
+  sessionId: z.string(),
+  position: z.enum(["BLACK", "WHITE"]),
+});
+
+export type UserGame = z.TypeOf<typeof userGameSchema>;
 
 export const sendMoveSchema = z.object({
   gameId: z.string(),

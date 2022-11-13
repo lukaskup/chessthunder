@@ -10,8 +10,11 @@ export const QuickPlay = () => {
 
   const createGame = () => {
     const gameId = uuidv4();
+    const game = {
+      id: gameId,
+    };
 
-    mutateAsync({ id: gameId }).then(() => {
+    mutateAsync(game).then(() => {
       router.push(`/game/${gameId}`);
     });
   };

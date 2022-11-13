@@ -50,6 +50,7 @@ model User {
     password      String?
     accounts      Account[]
     sessions      Session[]
+    userGames         UserGame[]
 }
 
 model VerificationToken {
@@ -63,6 +64,24 @@ model VerificationToken {
 model Game {
     id      String
     moves   String[]
+    result String?
+    resultType String?
+    startedAt DateTime?
+    endedAt DateTime?
+
+    userGame UserGame[]
+
+    @@unique([id])
+}
+
+model UserGame {
+    id String
+    gameId String
+    userId String
+    sessionId String
+    position String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    game Game @relation(fields: [gameId], references: [id])
 
     @@unique([id])
 }
