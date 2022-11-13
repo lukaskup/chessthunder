@@ -15,31 +15,35 @@ const Home: NextPage = () => {
         <title>Chessthunder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
-        <div className="grid grid-cols-2 gap-4 h-12 mb-4">
-          <div
-            className={`border border-slate-300/20 rounded flex items-center justify-center hover:bg-slate-300/10 ease-in-out duration-300 cursor-pointer ${
-              activeButton == "quickPlay" ? "bg-slate-300/10" : ""
-            }`}
-            onClick={() => {
-              setActiveButton("quickPlay");
-            }}
-          >
-            Quick play
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-2"></div>
+        <div className="col-span-8">
+          <div className="grid grid-cols-2 gap-4 h-12 mb-4">
+            <div
+              className={`border border-slate-300/20 rounded flex items-center justify-center hover:bg-slate-300/10 ease-in-out duration-300 cursor-pointer ${
+                activeButton == "quickPlay" ? "bg-slate-300/10" : ""
+              }`}
+              onClick={() => {
+                setActiveButton("quickPlay");
+              }}
+            >
+              Quick play
+            </div>
+            <div
+              className={`border border-slate-300/20 rounded flex items-center justify-center hover:bg-slate-300/10 ease-in-out duration-300 cursor-pointer ${
+                activeButton == "gamesList" ? "bg-slate-300/10" : ""
+              }`}
+              onClick={() => {
+                setActiveButton("gamesList");
+              }}
+            >
+              Games list
+            </div>
           </div>
-          <div
-            className={`border border-slate-300/20 rounded flex items-center justify-center hover:bg-slate-300/10 ease-in-out duration-300 cursor-pointer ${
-              activeButton == "gamesList" ? "bg-slate-300/10" : ""
-            }`}
-            onClick={() => {
-              setActiveButton("gamesList");
-            }}
-          >
-            Games list
-          </div>
+          {activeButton === "quickPlay" ? <QuickPlay /> : <GamesList />}
         </div>
-        {activeButton === "quickPlay" ? <QuickPlay /> : <GamesList />}
       </div>
+      <div className="col-span-2"></div>
     </>
   );
 };

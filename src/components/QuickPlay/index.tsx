@@ -22,7 +22,7 @@ export const QuickPlay = () => {
         modes.map((mode: any) => (
           <div
             key={mode}
-            className="border border-slate-300/20 rounded h-24 sm:h-48 flex items-center justify-center hover:bg-slate-300/10 ease-in-out duration-300 cursor-pointer"
+            className="border border-slate-300/20 rounded aspect-square flex items-center justify-center hover:bg-slate-300/10 ease-in-out duration-300 cursor-pointer"
             onClick={createGame}
           >
             <span className="text-xl">{mode}</span>
