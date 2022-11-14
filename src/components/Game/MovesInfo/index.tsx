@@ -15,25 +15,31 @@ const Timer = () => {
   );
 };
 
+const chunk = (arr: Move[], size: number) =>
+  Array.from({ length: Math.ceil(arr.length / size) }, (v, i) =>
+    arr.slice(i * size, i * size + size)
+  );
+
 export const MovesInfo = ({ moves }: MovesInfoProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(60000);
-  console.log(moves);
-  // const [list, chunkSize] = [moves, 2];
-  // const movesList = [...Array(Math.ceil(list.length / chunkSize))].map((_) =>
-  //   list.splice(0, chunkSize)
-  // );
-
+  const movesList = chunk(moves, 2);
   return (
     <div className="flex flex-col gap-4 h-full">
       <Timer />
       <div className="border rounded-md h-full">
-        {/* {movesList.map((move) => (
-          <div key={uuid4()} className="flex">
-            <div>{movesList.indexOf(move) + 1}</div>
-            <div>{move[0]?.message}</div>
-            {move[1] ? <div>{move[1].message}</div> : ""}
+        {movesList.map((move) => (
+          <div key={uuid4()} className="grid grid-cols-12">
+            <div className="col-span-2 w-8 text-center border-r">
+              {movesList.indexOf(move) + 1}
+            </div>
+            <div className="col-span-5 text-center">{move[0]?.message}</div>
+            {move[1] ? (
+              <div className="col-span-5 text-center">{move[1].message}</div>
+            ) : (
+              ""
+            )}
           </div>
-        ))} */}
+        ))}
       </div>
       <Timer />
     </div>

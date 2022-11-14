@@ -29,7 +29,6 @@ export const authOptions: NextAuthOptions = {
             password: md5(credentials.password),
           },
         });
-
         if (user) {
           return user;
         } else {
@@ -50,6 +49,19 @@ export const authOptions: NextAuthOptions = {
       clientSecret: env.DISCORD_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      //@ts-ignore
+      session.user.id = token.uid;
+      return session;
+    },
+  },
   session: {
     strategy: "jwt",
   },

@@ -6,7 +6,7 @@ export const Chat = () => {
   const [message, setMessage] = useState<string>("");
 
   return (
-    <div className="relative border rounded-md mt-2 h-full max-h-96 p-4">
+    <div className="relative border rounded-md mt-2 h-full  p-4">
       <div className="messages"></div>
       <div className="absolute flex bottom-4 margin-auto left-4 right-4 grid grid-cols-12">
         <input

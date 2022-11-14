@@ -77,7 +77,7 @@ const Game: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="grid grid-cols-12 gap-4">
-        <div className="flex flex-col col-span-2">
+        <div className="flex flex-col col-span-2 max-h-136">
           <GameInfo />
           <Chat />
         </div>
@@ -93,7 +93,7 @@ const Game: NextPage = () => {
             />
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="col-span-2 max-h-136">
           <MovesInfo moves={moves} />
         </div>
       </div>

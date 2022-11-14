@@ -6,6 +6,9 @@ module.exports = {
     maxWidth: {
       lg: "1536px",
     },
+    maxHeight: {
+      136: "32rem",
+    },
     colors: {
       main: "rgb(15 23 42)",
       white: "white",

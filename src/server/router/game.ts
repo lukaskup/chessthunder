@@ -21,6 +21,8 @@ export const gameRouter = createRouter()
       };
 
       const position = !!Math.round(Math.random()) ? "WHITE" : "BLACK";
+
+      console.log(ctx.session?.user);
       const userGame: UserGame = {
         id: uuidv4(),
         gameId: input.id,
