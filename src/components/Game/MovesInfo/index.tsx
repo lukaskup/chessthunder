@@ -1,7 +1,13 @@
 import { Move } from "../../../constants/schemas";
 import { v4 as uuid4 } from "uuid";
 import { useState } from "react";
-
+import { Button } from "../../UI/Button";
+import SwapIcon from "../../../assets/icons/SwapIcon.svg";
+import ArrowLeftIcon from "../../../assets/icons/ArrowLeftIcon.svg";
+import ArrowRightIcon from "../../../assets/icons/ArrowRightIcon.svg";
+import DoubleArrowRightIcon from "../../../assets/icons/DoubleArrowRightIcon.svg";
+import DoubleArrowLeftIcon from "../../../assets/icons/DoubleArrowLeftIcon.svg";
+import Image from "next/image";
 interface MovesInfoProps {
   moves: Move[];
 }
@@ -27,6 +33,28 @@ export const MovesInfo = ({ moves }: MovesInfoProps) => {
     <div className="flex flex-col gap-4 h-full">
       <Timer />
       <div className="border rounded-md h-full">
+        <div className="flex">
+          <Button
+            content={<Image src={SwapIcon} alt="swap icon" />}
+            customClassName="rounded-none"
+          />
+          <Button
+            content={<Image src={DoubleArrowLeftIcon} alt="swap icon" />}
+            customClassName="rounded-none"
+          />
+          <Button
+            content={<Image src={ArrowLeftIcon} alt="swap icon" />}
+            customClassName="rounded-none"
+          />
+          <Button
+            content={<Image src={ArrowRightIcon} alt="swap icon" />}
+            customClassName="rounded-none"
+          />
+          <Button
+            content={<Image src={DoubleArrowRightIcon} alt="swap icon" />}
+            customClassName="rounded-none"
+          />
+        </div>
         {movesList.map((move) => (
           <div key={uuid4()} className="grid grid-cols-12">
             <div className="col-span-2 w-8 text-center border-r">
