@@ -8,6 +8,8 @@ module.exports = {
     },
     maxHeight: {
       136: "32rem",
+      96: "24rem",
+      36: "9rem",
     },
     colors: {
       main: "rgb(15 23 42)",
@@ -17,5 +19,5 @@ module.exports = {
     },
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };

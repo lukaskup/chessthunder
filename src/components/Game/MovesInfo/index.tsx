@@ -1,13 +1,17 @@
 import { Move } from "../../../constants/schemas";
 import { v4 as uuid4 } from "uuid";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "../../UI/Button";
-import SwapIcon from "../../../assets/icons/SwapIcon.svg";
-import ArrowLeftIcon from "../../../assets/icons/ArrowLeftIcon.svg";
-import ArrowRightIcon from "../../../assets/icons/ArrowRightIcon.svg";
-import DoubleArrowRightIcon from "../../../assets/icons/DoubleArrowRightIcon.svg";
-import DoubleArrowLeftIcon from "../../../assets/icons/DoubleArrowLeftIcon.svg";
-import Image from "next/image";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdDoubleArrow,
+  MdSwapVert,
+  MdUndo,
+  MdFlag,
+} from "react-icons/md";
+
+import { TbHeartHandshake } from "react-icons/tb";
 interface MovesInfoProps {
   moves: Move[];
 }
@@ -29,45 +33,71 @@ const chunk = (arr: Move[], size: number) =>
 export const MovesInfo = ({ moves }: MovesInfoProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(60000);
   const movesList = chunk(moves, 2);
+  const bottomChatElement = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomChatElement.current?.scrollIntoView({ behavior: "smooth" });
+  }, [bottomChatElement, moves]);
+
   return (
     <div className="flex flex-col gap-4 h-full">
       <Timer />
-      <div className="border rounded-md h-full">
+      <div className="flex flex-col border rounded-md h-full">
         <div className="flex">
-          <Button
-            content={<Image src={SwapIcon} alt="swap icon" />}
-            customClassName="rounded-none"
-          />
-          <Button
-            content={<Image src={DoubleArrowLeftIcon} alt="swap icon" />}
-            customClassName="rounded-none"
-          />
-          <Button
-            content={<Image src={ArrowLeftIcon} alt="swap icon" />}
-            customClassName="rounded-none"
-          />
-          <Button
-            content={<Image src={ArrowRightIcon} alt="swap icon" />}
-            customClassName="rounded-none"
-          />
-          <Button
-            content={<Image src={DoubleArrowRightIcon} alt="swap icon" />}
-            customClassName="rounded-none"
-          />
+          <Button customClassName="!rounded-none">
+            {<MdSwapVert size={20} />}
+          </Button>
+          <Button customClassName="!rounded-none">
+            {
+              <MdDoubleArrow
+                size={18}
+                style={{ transform: "rotate(180deg)" }}
+              />
+            }
+          </Button>
+          <Button customClassName="!rounded-none">
+            {<MdKeyboardArrowLeft size={20} />}
+          </Button>
+          <Button customClassName="!rounded-none">
+            {<MdKeyboardArrowRight size={20} />}
+          </Button>
+          <Button customClassName="!rounded-none">
+            {<MdDoubleArrow size={18} />}
+          </Button>
         </div>
-        {movesList.map((move) => (
-          <div key={uuid4()} className="grid grid-cols-12">
-            <div className="col-span-2 w-8 text-center border-r">
-              {movesList.indexOf(move) + 1}
-            </div>
-            <div className="col-span-5 text-center">{move[0]?.message}</div>
-            {move[1] ? (
-              <div className="col-span-5 text-center">{move[1].message}</div>
-            ) : (
-              ""
-            )}
+        <div className="flex flex-col grow max-h-36">
+          <div className="overflow-auto scrollbar scrollbar-thumb-gray-900 scrollbar-track-gray-100">
+            {movesList.map((move) => (
+              <div key={uuid4()} className="grid grid-cols-12">
+                <div className="col-span-2 w-8 text-center border-r">
+                  {movesList.indexOf(move) + 1}
+                </div>
+                <Button customClassName="col-span-5 text-center !rounded-none !border-none !p-0">
+                  {move[0]?.message}
+                </Button>
+                {move[1] ? (
+                  <Button customClassName="col-span-5 text-center !rounded-none !border-none !p-0">
+                    {move[1].message}
+                  </Button>
+                ) : (
+                  ""
+                )}
+              </div>
+            ))}
+            <div ref={bottomChatElement} />
           </div>
-        ))}
+        </div>
+        <div className="flex ">
+          <Button customClassName="!rounded-none">
+            {<MdUndo size={20} />}
+          </Button>
+          <Button customClassName="!rounded-none">
+            {<MdFlag size={20} />}
+          </Button>
+          <Button customClassName="!rounded-none">
+            {<TbHeartHandshake size={18} />}
+          </Button>
+        </div>
       </div>
       <Timer />
     </div>

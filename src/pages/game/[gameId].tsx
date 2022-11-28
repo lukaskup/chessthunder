@@ -9,6 +9,7 @@ import { Move } from "../../constants/schemas";
 import { GameInfo } from "../../components/Game/GameInfo";
 import { Chat } from "../../components/Chat";
 import { MovesInfo } from "../../components/Game/MovesInfo";
+import { Button } from "../../components/UI/Button";
 
 const Game: NextPage = () => {
   const [game, setGame] = useState(new Chess());
@@ -48,6 +49,24 @@ const Game: NextPage = () => {
       modify(update);
       return update;
     });
+  }
+
+  function makeRandomMove() {
+    const possibleMoves = game.moves();
+    if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
+      return; // exit if the game is over
+    const randomIndex = Math.floor(Math.random() * possibleMoves.length);
+    let move: Move | null = null;
+
+    safeGameMutate((game: any) => {
+      move = game.move(possibleMoves[randomIndex]);
+    });
+
+    if (move) {
+      //@ts-ignore
+      const newMoveSan = move.san;
+      sendMoveMutation({ move: newMoveSan, gameId });
+    }
   }
 
   function onDrop(sourceSquare: any, targetSquare: any) {
@@ -93,8 +112,11 @@ const Game: NextPage = () => {
             />
           </div>
         </div>
-        <div className="col-span-2 max-h-136">
+        <div className="col-span-2 max-h-96">
           <MovesInfo moves={moves} />
+          <Button onClick={makeRandomMove} customClassName="mt-2 w-32">
+            rand move
+          </Button>
         </div>
       </div>
     </>
