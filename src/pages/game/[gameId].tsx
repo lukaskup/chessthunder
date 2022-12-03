@@ -5,7 +5,7 @@ import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import { useRouter } from "next/router";
 import { trpc } from "../../utils/trpc";
-import { Move } from "../../constants/schemas";
+import { Move, moveSubSchema } from "../../constants/schemas";
 import { GameInfo } from "../../components/Game/GameInfo";
 import { Chat } from "../../components/Chat";
 import { MovesInfo } from "../../components/Game/MovesInfo";
@@ -14,10 +14,12 @@ import { Button } from "../../components/UI/Button";
 const Game: NextPage = () => {
   const [game, setGame] = useState(new Chess());
   const [moves, setMoves] = useState<Move[]>([]);
+  const [currentMove, setCurrentMove] = useState<Move>();
   const [chessboardWidth, setChessboardWidth] = useState<number>(540);
   const [boardOrientation, setBoardOrientation] = useState<"white" | "black">(
     "white"
   );
+
   const { query } = useRouter();
   const gameId = query.gameId as string;
   const { mutateAsync: sendMoveMutation } = trpc.useMutation(["game.sendMove"]);
@@ -43,15 +45,15 @@ const Game: NextPage = () => {
     handleWindowResize();
   }, []);
 
-  function safeGameMutate(modify: any) {
+  const safeGameMutate = (modify: any) => {
     setGame((g) => {
       const update = { ...g };
       modify(update);
       return update;
     });
-  }
+  };
 
-  function makeRandomMove() {
+  const makeRandomMove = () => {
     const possibleMoves = game.moves();
     if (game.game_over() || game.in_draw() || possibleMoves.length === 0)
       return; // exit if the game is over
@@ -67,9 +69,15 @@ const Game: NextPage = () => {
       const newMoveSan = move.san;
       sendMoveMutation({ move: newMoveSan, gameId });
     }
-  }
+  };
 
-  function onDrop(sourceSquare: any, targetSquare: any) {
+  const moveBack = () => {
+    safeGameMutate((game: any) => {
+      game = game.undo();
+    });
+  };
+
+  const onDrop = (sourceSquare: any, targetSquare: any) => {
     let move = null;
     safeGameMutate((game: any) => {
       move = game.move({
@@ -83,11 +91,12 @@ const Game: NextPage = () => {
     } else {
       //@ts-ignore
       const newMoveSan = move.san;
+      setCurrentMove(move);
       sendMoveMutation({ move: newMoveSan, gameId });
     }
 
     return true;
-  }
+  };
 
   return (
     <>
@@ -113,7 +122,7 @@ const Game: NextPage = () => {
           </div>
         </div>
         <div className="col-span-2 max-h-96">
-          <MovesInfo moves={moves} />
+          <MovesInfo moves={moves} moveBack={moveBack} />
           <Button onClick={makeRandomMove} customClassName="mt-2 w-32">
             rand move
           </Button>

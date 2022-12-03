@@ -14,7 +14,10 @@ import {
 import { TbHeartHandshake } from "react-icons/tb";
 interface MovesInfoProps {
   moves: Move[];
+  moveBack: () => void;
 }
+
+type Proposal = "TAKEBACK" | "DRAW";
 
 const Timer = () => {
   return (
@@ -30,8 +33,10 @@ const chunk = (arr: Move[], size: number) =>
     arr.slice(i * size, i * size + size)
   );
 
-export const MovesInfo = ({ moves }: MovesInfoProps) => {
+export const MovesInfo = ({ moves, moveBack }: MovesInfoProps) => {
   const [timeLeft, setTimeLeft] = useState<number>(60000);
+  const [proposal, setProposal] = useState<Proposal | null>(null);
+  const [resignConfirmation, setResignConfirmation] = useState(false);
   const movesList = chunk(moves, 2);
   const bottomChatElement = useRef<HTMLDivElement>(null);
 
@@ -56,7 +61,7 @@ export const MovesInfo = ({ moves }: MovesInfoProps) => {
             }
           </Button>
           <Button customClassName="!rounded-none">
-            {<MdKeyboardArrowLeft size={20} />}
+            {<MdKeyboardArrowLeft size={20} onClick={moveBack} />}
           </Button>
           <Button customClassName="!rounded-none">
             {<MdKeyboardArrowRight size={20} />}
@@ -87,16 +92,33 @@ export const MovesInfo = ({ moves }: MovesInfoProps) => {
             <div ref={bottomChatElement} />
           </div>
         </div>
-        <div className="flex ">
-          <Button customClassName="!rounded-none">
-            {<MdUndo size={20} />}
-          </Button>
-          <Button customClassName="!rounded-none">
-            {<MdFlag size={20} />}
-          </Button>
-          <Button customClassName="!rounded-none">
-            {<TbHeartHandshake size={18} />}
-          </Button>
+        <div className="flex">
+          {resignConfirmation ? (
+            <>do u want to resign?</>
+          ) : proposal ? (
+            <>some proposal</>
+          ) : (
+            <>
+              <Button
+                customClassName="!rounded-none"
+                onClick={() => setProposal("TAKEBACK")}
+              >
+                {<MdUndo size={20} />}
+              </Button>
+              <Button
+                customClassName="!rounded-none"
+                onClick={() => setResignConfirmation(true)}
+              >
+                {<MdFlag size={20} />}
+              </Button>
+              <Button
+                customClassName="!rounded-none"
+                onClick={() => setProposal("TAKEBACK")}
+              >
+                {<TbHeartHandshake size={18} />}
+              </Button>
+            </>
+          )}
         </div>
       </div>
       <Timer />
