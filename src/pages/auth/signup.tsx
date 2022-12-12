@@ -12,6 +12,7 @@ import { Input } from "../../components/UI/Input";
 import Link from "next/link";
 import { Button } from "../../components/UI/Button";
 import { trpc } from "../../utils/trpc";
+import { MdRadioButtonUnchecked } from "react-icons/md";
 
 interface UserSignupDto {
   email: string;
@@ -103,11 +104,9 @@ const SignUpPage = () => {
             value=""
             onChange={() => {}}
           />
-          <Button
-            content="Sign up"
-            onClick={handleSingup}
-            customClassName="mt-6"
-          />
+          <Button onClick={handleSingup} customClassName="mt-6">
+            Sign up
+          </Button>
           <div className="grid grid-cols-3 gap-2 mt-6 items-center">
             <div className="border border-slate-300/10 h-0" />
             <div className="text-center text-sm">or continue with</div>
@@ -115,26 +114,29 @@ const SignUpPage = () => {
           </div>
           <div className="grid grid-cols-3 gap-2">
             <Button
-              content={<FaGithub size={20} />}
               onClick={() => {
                 signIn("github");
               }}
               customClassName="mt-6"
-            />
+            >
+              <FaGithub size={20} />
+            </Button>
             <Button
-              content={<FaGoogle size={20} />}
               onClick={() => {
                 signIn("google");
               }}
               customClassName="mt-6"
-            />
+            >
+              <FaGoogle size={20} />
+            </Button>
             <Button
-              content={<FaDiscord size={20} />}
               onClick={() => {
                 signIn("discord");
               }}
               customClassName="mt-6"
-            />
+            >
+              <FaDiscord size={20} />
+            </Button>
           </div>
         </div>
       </div>

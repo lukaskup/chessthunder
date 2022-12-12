@@ -59,7 +59,7 @@ export const Navigation = () => {
                       data-testid="profilePicture"
                     />
                   ) : (
-                    <Button content="Sign in" href="/auth/signin" />
+                    <Button href="/auth/signin">Sign in</Button>
                   )}
                 </button>
               </div>
@@ -75,21 +75,23 @@ export const Navigation = () => {
               {session?.user?.name}
             </div>
             <Button
-              content={"Profile"}
               href="/auth/profile"
               customClassName="border-0"
               onClick={() => {
                 setisUserMenuOpen(false);
               }}
-            />
+            >
+              Profile
+            </Button>
             <Button
               onClick={async () => {
                 await signOut();
                 setisUserMenuOpen(false);
               }}
-              content="Sign out"
               customClassName="border-0"
-            />
+            >
+              Sign out
+            </Button>
           </div>
         </div>
       </div>

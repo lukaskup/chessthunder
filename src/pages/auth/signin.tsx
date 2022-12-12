@@ -88,7 +88,6 @@ const SignInPage = () => {
             </div>
           </div>
           <Button
-            content="Sign in"
             onClick={async () => {
               const res = await signIn("credentials", {
                 email: userLoginDto.email,
@@ -97,7 +96,9 @@ const SignInPage = () => {
               console.log(res);
             }}
             customClassName="mt-6"
-          />
+          >
+            Sign in
+          </Button>
           <div className="grid grid-cols-3 gap-2 mt-6 items-center">
             <div className="border border-slate-300/10 h-0" />
             <div className="text-center text-sm">or continue with</div>
@@ -105,26 +106,29 @@ const SignInPage = () => {
           </div>
           <div className="grid grid-cols-3 gap-2">
             <Button
-              content={<FaGithub size={20} />}
               onClick={() => {
                 signIn("github");
               }}
               customClassName="mt-6"
-            />
+            >
+              <FaGithub size={20} />
+            </Button>
             <Button
-              content={<FaGoogle size={20} />}
               onClick={() => {
                 signIn("google");
               }}
               customClassName="mt-6"
-            />
+            >
+              <FaGoogle size={20} />
+            </Button>
             <Button
-              content={<FaDiscord size={20} />}
               onClick={() => {
                 signIn("discord");
               }}
               customClassName="mt-6"
-            />
+            >
+              <FaDiscord size={20} />
+            </Button>
           </div>
         </div>
       </div>
