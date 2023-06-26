@@ -19,6 +19,7 @@ export const authRouter = createRouter()
     async resolve({ ctx }) {
       const { req, res } = ctx;
       if (!!!req) return res?.send(400);
+      //@ts-ignore
       const user = req.body["0"].json;
 
       // if (user.password !== user.confirmPassword) return res?.send(400);
