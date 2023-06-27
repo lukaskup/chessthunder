@@ -22,21 +22,22 @@ export const gameRouter = createRouter()
 
       const position = !!Math.round(Math.random()) ? "WHITE" : "BLACK";
 
-      console.log(ctx.session?.user);
-      const userGame: UserGame = {
-        id: uuidv4(),
-        gameId: input.id,
-        position: position,
-        sessionId: uuidv4(),
-        userId: ctx.session?.user?.id,
-      };
+      if (ctx.session?.user?.id) {
+        const userGame: UserGame = {
+          id: uuidv4(),
+          gameId: input.id,
+          position: position,
+          sessionId: uuidv4(),
+          userId: ctx.session?.user?.id,
+        };
+        //@ts-ignore
+        await prisma?.userGame.create({ data: userGame });
+      }
 
       ctx.eventEmitter.emit(Events.CREATE_GAME, game);
 
       //@ts-ignore
       await prisma?.game.create({ data: game });
-      //@ts-ignore
-      await prisma?.userGame.create({ data: userGame });
 
       return true;
     },
