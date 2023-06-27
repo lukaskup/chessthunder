@@ -6,7 +6,7 @@ import superjson from "superjson";
 import { SessionProvider } from "next-auth/react";
 import "../styles/globals.scss";
 import "../styles/chessboard.scss";
-import { Navigation } from "../components/Navigation";
+import { Navigation } from "../components/navigation";
 import { httpBatchLink } from "@trpc/client/links/httpBatchLink";
 import { wsLink, createWSClient } from "@trpc/client/links/wsLink";
 import { useRouter } from "next/router";

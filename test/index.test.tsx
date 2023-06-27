@@ -1,4 +1,4 @@
-import { Navigation } from "../src/components/Navigation/index";
+import { Navigation } from "../src/components/navigation/index";
 import { render, screen } from "@testing-library/react";
 import { useSession } from "next-auth/react";
 jest.mock("next-auth/react");
