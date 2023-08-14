@@ -1,87 +1,151 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Example {
-    id String @id @default(cuid())
-}
-
-// Necessary for Next auth
 model Account {
-    id                String  @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String?
-    access_token      String?
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String?
-    session_state     String?
-    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    password      String?
-    accounts      Account[]
-    sessions      Session[]
-    userGames         UserGame[]
+  id            String       @id @default(cuid())
+  name          String?
+  email         String?      @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  rating        Int          @default(1200)
+  accounts      Account[]
+  sessions      Session[]
+  userGames     UserGame[]
+  GameQueue     GameQueue[]
+  Newsletter    Newsletter[]
+  Feedback      Feedback[]
+  BlogPost      BlogPost[]
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
 }
 
 model Game {
-    id      String
-    moves   String[]
-    result String?
-    resultType String?
-    startedAt DateTime?
-    endedAt DateTime?
+  id           String
+  moves        String[]
+  result       String?
+  resultType   String?
+  startedAt    DateTime?
+  endedAt      DateTime?
+  mode         GameMode    @relation(fields: [gameModeId], references: [id])
+  games        UserGame[]
+  tournament   Tournament? @relation(fields: [tournamentId], references: [id])
+  tournamentId String?
+  gameModeId   String
 
-    userGame UserGame[]
+  @@unique([id])
+}
 
-    @@unique([id])
+model GameMode {
+  id        String
+  time      Int // in seconds
+  increment Int // in seconds
+  GameQueue GameQueue[]
+  Game      Game[]
+
+  @@unique([id])
 }
 
 model UserGame {
-    id String
-    gameId String
-    userId String
-    sessionId String
-    position String
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    game Game @relation(fields: [gameId], references: [id])
+  id        String
+  gameId    String
+  userId    String
+  sessionId String
+  position  String
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game   @relation(fields: [gameId], references: [id])
 
-    @@unique([id])
+  @@unique([id])
+}
+
+model Tournament {
+  id          String
+  name        String
+  description String?
+  startedAt   DateTime?
+  endedAt     DateTime?
+  games       Game[]
+
+  @@unique([id])
+}
+
+model GameQueue {
+  id         String
+  userId     String
+  gameModeId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  gameMode   GameMode @relation(fields: [gameModeId], references: [id])
+
+  @@unique([id])
+}
+
+model Newsletter {
+  id        String
+  email     String
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([id])
+}
+
+model Feedback {
+  id        String
+  email     String
+  message   String
+  createdAt DateTime @default(now())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([id])
+}
+
+model BlogPost {
+  id        String
+  title     String
+  slug      String
+  content   String
+  createdAt DateTime @default(now())
+  userId    String?
+  createdBy User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([id])
 }
