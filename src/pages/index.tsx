@@ -14,6 +14,8 @@ const Home: NextPage = () => {
       <Head>
         <title>Chessthunder</title>
         <link rel="icon" href="/favicon.ico" />
+        {/* lint to manifest.json */}
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-2"></div>
