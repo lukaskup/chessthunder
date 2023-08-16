@@ -9,7 +9,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { env } from "../../../server/env.mjs";
 
-//TODO take global prisma
 const prisma = new PrismaClient();
 
 export const authOptions: NextAuthOptions = {

@@ -1,16 +1,18 @@
 import { Events } from "../../constants/events";
 import {
   createGameSchema,
-  Game,
   sendMoveSchema,
   Move,
   moveSubSchema,
-  UserGame,
+  defaultGame,
 } from "./../../constants/schemas";
+
+import type { Game, UserGame } from "@prisma/client";
 
 import { createRouter } from "./context";
 import * as trpc from "@trpc/server";
 import { v4 as uuidv4 } from "uuid";
+import z from "zod";
 
 export const gameRouter = createRouter()
   .mutation("createGame", {
@@ -18,6 +20,7 @@ export const gameRouter = createRouter()
     resolve: async ({ ctx, input }) => {
       const game: Game = {
         id: input.id,
+        ...defaultGame,
       };
 
       const position = !!Math.round(Math.random()) ? "WHITE" : "BLACK";
@@ -40,6 +43,12 @@ export const gameRouter = createRouter()
       await prisma?.game.create({ data: game });
 
       return true;
+    },
+  })
+  .query("getGame", {
+    input: z.object({ id: z.string() }),
+    resolve: async ({ ctx, input }) => {
+      return await prisma?.game.findUnique({ where: { id: input.id } });
     },
   })
   .mutation("sendMove", {

@@ -39,3 +39,13 @@ export type Move = z.TypeOf<typeof moveSchema>;
 export const moveSubSchema = z.object({
   gameId: z.string(),
 });
+
+export const defaultGame = {
+  endedAt: null,
+  gameModeId: "test",
+  moves: [],
+  result: null,
+  resultType: null,
+  startedAt: new Date(),
+  tournamentId: null,
+};

@@ -2,7 +2,11 @@ import Image from "next/image";
 import { useState } from "react";
 import SendIcon from "../../assets/icons/SendIcon.svg";
 
-export const Chat = () => {
+interface ChatProps {
+  gameId: string;
+}
+
+export const Chat = ({}: ChatProps) => {
   const [message, setMessage] = useState<string>("");
 
   return (

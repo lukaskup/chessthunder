@@ -1,5 +1,6 @@
 import Image from "next/image";
 import BoltIcon from "../../../assets/icons/BoltIcon.svg";
+import { Game } from "@prisma/client";
 
 interface PlayerInfo {
   color: "black" | "white";
@@ -22,7 +23,11 @@ const PlayerInfo = ({ color, name, rank }: PlayerInfo) => {
   );
 };
 
-export const GameInfo = () => {
+interface GameInfoProps {
+  game: Game;
+}
+
+export const GameInfo = ({}: GameInfoProps) => {
   return (
     <div className="border rounded-md p-3 pl-0">
       <div className="grid grid-cols-5">

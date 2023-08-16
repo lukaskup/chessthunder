@@ -12,9 +12,11 @@ import {
 } from "react-icons/md";
 
 import { TbHeartHandshake } from "react-icons/tb";
+import { Game } from "@prisma/client";
 interface MovesInfoProps {
   moves: Move[];
   moveBack: () => void;
+  gameInfo: Game;
 }
 
 type Proposal = "TAKEBACK" | "DRAW";
